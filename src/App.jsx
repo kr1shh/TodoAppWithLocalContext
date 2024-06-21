@@ -1,5 +1,7 @@
 import { TodoProvider } from "./contexts"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import TodoForm from "./components/TodoForm"
+import TodoItem from "./components/TodoItem"
 
 function App() {
 
@@ -35,9 +37,28 @@ function App() {
   }
 
 
+  useEffect(() => {
+    const todos = JSON.parse(localStorage.getItem("todos"))
+    if( todos&&todos.length>0 ){
+      setTodos(todos)
+    }
+  },[])
+
+  useEffect(() => {
+    localStorage.setItem("todos",JSON.stringify(todos))
+  },[todos])
+
   return (
     <TodoProvider value={{ todos,addTodo,updateTodo,deleteTodo,togglComplete }} >
-      <h1>Hello</h1>
+      <div
+      className="w-full h-screen flex flex-col items-center justify-center bg-blue-950">
+        <h1
+        className="text-white text-2xl font-bold mb-5">
+          Manage Your Todos.
+        </h1>
+        <TodoForm/>
+        <TodoItem/>
+      </div>
     </TodoProvider>
   )
 }
