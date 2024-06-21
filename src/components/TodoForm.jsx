@@ -18,14 +18,14 @@ const TodoForm = () => {
         <input 
         type="text"
         placeholder="Write Todo..."
-        className="focus:outline-0 rounded-2xl w-[300px] sm:w-[600px] h-[50px] px-3"
+        className="focus:outline-0 rounded-2xl w-[300px] sm:w-[600px] h-[50px] px-3 bg-slate-400 text-white placeholder:text-white"
         value={todo}
         onChange={(e)=>{setTodo(e.target.value)}}
          />
 
          <button
          type="submit"
-         className="bg-white rounded-2xl p-[13px] hover:bg-blue-200 ml-1">Add</button>
+         className="bg-green-500 text-white rounded-2xl p-[13px] hover:bg-green-600 ml-1">Add</button>
       </form>
     </>
   )

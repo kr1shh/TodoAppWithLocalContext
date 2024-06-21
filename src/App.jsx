@@ -1,7 +1,7 @@
 import { TodoProvider } from "./contexts"
 import { useEffect, useState } from "react"
-import TodoForm from "./components/TodoForm"
-import TodoItem from "./components/TodoItem"
+import {TodoForm,TodoItem} from "./components"
+import toast, { Toaster } from 'react-hot-toast';
 
 function App() {
 
@@ -12,19 +12,26 @@ function App() {
       id : Date.now(),
       ...todo
     },...prev])
+
+    toast.success("Todo Added")
   }
 
   const updateTodo = (id,todo) => {
     setTodos((prev)=>prev.map((prevTodo)=>(prevTodo.id === todo.id ? todo : prevTodo)))
+
+    toast.success("Saved")
   }
 
   const deleteTodo = (id) => {
     setTodos((prev)=>(
       prev.filter((prevTodo)=>(prevTodo.id !== id))
     ))
+
+    toast.error("Todo Deleted")
   }
 
   const togglComplete = (id) => {
+    toast.success("Completed")
     setTodos((prev)=>(
       prev.map((prevTodo)=>
         prevTodo.id === id ? {
@@ -50,14 +57,24 @@ function App() {
 
   return (
     <TodoProvider value={{ todos,addTodo,updateTodo,deleteTodo,togglComplete }} >
+
+      <Toaster
+      position="top-right" />
+
       <div
-      className="w-full h-screen flex flex-col items-center justify-center bg-blue-950">
+      className="w-full h-screen flex flex-col items-center justify-start bg-blue-950">
         <h1
-        className="text-white text-2xl font-bold mb-5">
+        className="text-white text-3xl font-bold mb-5 mt-10">
           Manage Your Todos.
         </h1>
         <TodoForm/>
-        <TodoItem/>
+        {
+          todos.map((todo)=> (
+            <div key={ todo.id }>
+              <TodoItem todo={ todo }/>
+            </div>
+          ))
+        }
       </div>
     </TodoProvider>
   )
